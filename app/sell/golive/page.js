@@ -68,6 +68,11 @@ export default function GoLivePage() {
   });
   const [viewersCount, setViewersCount] = useState(0);
   const socketRef = useRef(null);
+  const activeLiveRef = useRef(activeLive);
+  useEffect(() => {
+    activeLiveRef.current = activeLive;
+  }, [activeLive]);
+
   useEffect(() => {
     if (!isLive || !activeLive) return;
 
@@ -78,7 +83,9 @@ export default function GoLivePage() {
       setViewersCount(typeof count === "number" ? count : Number(count) || 0);
     };
     const onComment = (payload) => {
-      if (String(payload?.liveId) !== String(activeLive)) return;
+      const currentLiveId = activeLiveRef.current;
+      if (!payload || !currentLiveId) return;
+      if (String(payload.liveId) !== String(currentLiveId)) return;
       setComments((c) => {
         if (c.some((x) => String(x._id) === String(payload._id))) return c;
         return [
@@ -93,7 +100,9 @@ export default function GoLivePage() {
       });
     };
     const onReactionAdded = (payload) => {
-      if (String(payload?.liveId) !== String(activeLive)) return;
+      const currentLiveId = activeLiveRef.current;
+      if (!payload || !currentLiveId) return;
+      if (String(payload.liveId) !== String(currentLiveId)) return;
       const reaction = payload?.reaction;
       if (reaction) {
         setReactionCounts((prev) => ({
@@ -107,7 +116,8 @@ export default function GoLivePage() {
     socket.on("reactionAdded", onReactionAdded);
 
     const joinRoom = () => {
-      socket.emit("joinLive", { liveId: activeLive });
+      const id = activeLiveRef.current;
+      if (id) socket.emit("joinLive", { liveId: String(id) });
     };
     if (socket.connected) {
       joinRoom();
