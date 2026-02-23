@@ -1,44 +1,95 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../../styles/dashboard.module.css";
+import axios from "axios";
+
+const getAuthHeaders = () => {
+  const token =
+    typeof window !== "undefined"
+      ? document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1]
+      : null;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 const Page = () => {
-  const totalProducts = 24;
-  const isSessionActive = true;
-  const sessionDuration = "2h 14m";
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
 
-  const analytics = [
-    {
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        setError(null);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
+          { headers: getAuthHeaders() },
+        );
+        setData(res.data);
+      } catch (err) {
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load dashboard",
+        );
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDashboard();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.headerLeft}>
+              <span className={styles.badge}>Seller dashboard</span>
+              <h1 className={styles.title}>Overview</h1>
+            </div>
+          </div>
+          <p className={styles.subtitle}>Loading…</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.headerLeft}>
+              <span className={styles.badge}>Seller dashboard</span>
+              <h1 className={styles.title}>Overview</h1>
+            </div>
+          </div>
+          <p className={styles.subtitle} style={{ color: "#b91c1c" }}>
+            {error}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const totalProducts = data?.totalProducts ?? 0;
+  const liveSession = data?.liveSession ?? { active: false, duration: null };
+  const totalViews = data?.totalViews ?? 0;
+
+  const analytics = [];
+  if (typeof totalViews === "number") {
+    analytics.push({
       label: "Total views",
-      value: "1,842",
-      change: "+12.4%",
-      positive: true,
+      value: totalViews.toLocaleString(),
       icon: "👁",
-    },
-    {
-      label: "Sales this week",
-      value: "18",
-      change: "+8",
-      positive: true,
-      icon: "🛒",
-    },
-    {
-      label: "Revenue",
-      value: "₹24,560",
-      change: "+18.2%",
-      positive: true,
-      icon: "💰",
-    },
-    {
-      label: "Avg. session",
-      value: "4m 32s",
-      change: "-0.2m",
-      positive: false,
-      icon: "⏱",
-    },
-  ];
+    });
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -72,55 +123,43 @@ const Page = () => {
           <div className={styles.card}>
             <div
               className={`${styles.iconWrap} ${
-                isSessionActive
+                liveSession.active
                   ? styles.iconSession
                   : styles.iconSessionInactive
               }`}
             >
-              {isSessionActive ? "🔴" : "⚪"}
+              {liveSession.active ? "🔴" : "⚪"}
             </div>
             <div className={styles.cardLabel}>Active session</div>
             <div className={styles.cardValue}>
-              {isSessionActive ? "Live" : "Idle"}
+              {liveSession.active ? "Live" : "Idle"}
             </div>
             <span
               className={`${styles.statusPill} ${
-                isSessionActive ? styles.statusLive : styles.statusIdle
+                liveSession.active ? styles.statusLive : styles.statusIdle
               }`}
             >
-              {isSessionActive
-                ? `Live · ${sessionDuration}`
+              {liveSession.active
+                ? `Live · ${liveSession.duration || "—"}`
                 : "No active stream"}
             </span>
           </div>
         </div>
 
-        <div className={styles.divider} />
-
-        <h2 className={styles.sectionTitle}>Basic analytics</h2>
-        <div className={styles.analyticsGrid}>
-          {analytics.map((item, i) => (
-            <div key={i} className={styles.analyticsCard}>
-              <div className={styles.analyticsLabel}>{item.label}</div>
-              <div className={styles.analyticsValue}>{item.value}</div>
-              <div className={styles.analyticsChange}>
-                <span
-                  className={
-                    item.positive
-                      ? styles.analyticsChangePositive
-                      : styles.analyticsChangeNegative
-                  }
-                >
-                  {item.change}
-                </span>
-                <span className={styles.analyticsChangeNeutral}>
-                  {" "}
-                  vs last week
-                </span>
-              </div>
+        {analytics.length > 0 && (
+          <>
+            <div className={styles.divider} />
+            <h2 className={styles.sectionTitle}>Basic analytics</h2>
+            <div className={styles.analyticsGrid}>
+              {analytics.map((item, i) => (
+                <div key={i} className={styles.analyticsCard}>
+                  <div className={styles.analyticsLabel}>{item.label}</div>
+                  <div className={styles.analyticsValue}>{item.value}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
