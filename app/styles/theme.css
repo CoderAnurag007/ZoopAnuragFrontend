@@ -1,0 +1,75 @@
+:root {
+    /* brand colors  */
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+    --color-accent: #7C3AED;
+    --color-accent-hover: #6D28D9;
+  
+        /* background colors  */
+    --color-bg-page: #F3F4F6;
+    --color-bg-card: #FFFFFF;
+    --color-bg-dark: #111827;
+    --color-bg-video: #000000;
+  
+    /* text colors  */
+    --color-text-primary: #111827;
+    --color-text-secondary: #6B7280;
+    --color-text-light: #D1D5DB;
+    --color-text-white: #FFFFFF;
+  
+    /* border colors  */
+    --color-border: #E5E7EB;
+    --color-border-dark: #374151;
+  
+    /* status colors  */
+    --color-live: #EF4444;
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-error: #DC2626;
+  
+    /* reaction colors  */
+    --color-reaction-heart: #F43F5E;
+    --color-reaction-like: #2563EB;
+    --color-reaction-fire: #F59E0B;
+  
+    /* navbar colors  */
+    --navbar-bg: #FFFFFF;
+    --navbar-text: #374151;
+    --navbar-active: #2563EB;
+    --navbar-border: #E5E7EB;
+  
+    /* sidebar colors  */
+    --sidebar-bg: #111827;
+    --sidebar-text: #D1D5DB;
+    --sidebar-active-bg: #2563EB;
+    --sidebar-active-text: #FFFFFF;
+  
+    /* card colors  */
+    --card-bg: #FFFFFF;
+    --card-border: #E5E7EB;
+  
+    /* button colors  */
+    --btn-primary-bg: #2563EB;
+    --btn-primary-hover: #1D4ED8;
+    --btn-primary-text: #FFFFFF;
+  
+    --btn-secondary-bg: #E5E7EB;
+    --btn-secondary-hover: #D1D5DB;
+    --btn-secondary-text: #111827;
+  
+    --btn-danger-bg: #EF4444;
+    --btn-danger-hover: #DC2626;
+    --btn-danger-text: #FFFFFF;
+  
+    /* chat colors  */
+    --chat-user-bg: #F3F4F6;
+    --chat-admin-bg: #2563EB;
+    --chat-admin-text: #FFFFFF;
+  
+        /* analytics colors  */
+    --analytics-metric: #2563EB;
+    --analytics-graph-accent: #7C3AED;
+    --analytics-positive: #22C55E;
+    --analytics-negative: #EF4444;
+  }
+  

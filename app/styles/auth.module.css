@@ -1,0 +1,240 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 40%, #f3e8ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -15%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-bg-card);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  padding: 2.5rem 2rem;
+}
+
+.cardSeller {
+  border-left-color: var(--color-accent);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+
+.badgeBuyer {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--color-primary);
+}
+
+.badgeSeller {
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--color-accent);
+}
+
+.title {
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.025em;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+
+.input:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.cardSeller .input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 0.25rem;
+}
+
+.submitBtnBuyer {
+  background: var(--color-primary);
+  color: var(--color-text-white);
+}
+
+.submitBtnBuyer:hover {
+  background: var(--color-primary-hover);
+}
+
+.submitBtnSeller {
+  background: var(--color-accent);
+  color: var(--color-text-white);
+}
+
+.submitBtnSeller:hover {
+  background: var(--color-accent-hover);
+}
+
+.submitBtn:active {
+  transform: scale(0.99);
+}
+
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.footerText {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.footerLink {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.footerLink:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+.cardSeller .footerLink {
+  color: var(--color-accent);
+}
+
+.cardSeller .footerLink:hover {
+  color: var(--color-accent-hover);
+}
+
+.switchRole {
+  margin-top: 1rem;
+}
+
+.switchRoleLink {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.switchRoleLink:hover {
+  color: var(--color-primary);
+}
+
+.cardSeller .switchRoleLink:hover {
+  color: var(--color-accent);
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 1rem 0;
+}
+
+.signupNameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.signupNameRow .fieldGroup {
+  margin: 0;
+}
