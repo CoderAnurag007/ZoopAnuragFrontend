@@ -7,6 +7,7 @@ import styles from "../styles/auth.module.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 
 const Signup = () => {
   const searchParams = useSearchParams();
@@ -15,11 +16,12 @@ const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setloading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("signup", process.env.NEXT_PUBLIC_API_URL, isSeller);
+    setloading(true);
     if (isSeller) {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
@@ -36,7 +38,9 @@ const Signup = () => {
         // window.localStorage.setItem("token", response.data.token);
         document.cookie = `token=${response.data.token}; path=/`;
         router.push("/live");
+        setloading(false);
       } else {
+        setloading(false);
         const buyerResponse = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
           {
@@ -57,6 +61,7 @@ const Signup = () => {
           console.log("buyer error");
           console.log(buyerResponse.data);
           toast.error(buyerResponse.data.message);
+          setloading(false);
         }
       }
       console.log(response.data);
@@ -188,8 +193,14 @@ const Signup = () => {
             className={`${styles.submitBtn} ${
               isSeller ? styles.submitBtnSeller : styles.submitBtnBuyer
             }`}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "0.5rem",
+              alignItems: "center",
+            }}
           >
-            Create account
+            Create account {loading ? <Spinner /> : null}
           </button>
         </form>
 

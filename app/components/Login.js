@@ -6,16 +6,19 @@ import React, { useState } from "react";
 import styles from "../styles/auth.module.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import Spinner from "./Spinner";
 
 const Login = () => {
   const searchParams = useSearchParams();
   const isSeller = searchParams.get("seller") === "true";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setloading] = useState(false);
   const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ email, password, isSeller });
+    setloading(true);
     if (isSeller) {
       try {
         const response = await axios.post(
@@ -31,12 +34,15 @@ const Login = () => {
           // window.localStorage.setItem("token", response.data.token);
           document.cookie = `token=${response.data.token}; path=/`;
           router.push("/live");
+          setloading(false);
         } else {
           toast.error(response.data.message);
+          setloading(false);
         }
       } catch (error) {
         console.log("error", error);
         toast.error(error.response.data.message);
+        setloading(false);
       }
     } else {
       try {
@@ -53,12 +59,15 @@ const Login = () => {
           toast.success("Login successful");
           document.cookie = `token=${response.data.token}; path=/`;
           router.push("/live");
+          setloading(false);
         } else {
           toast.error(response.data.message);
+          setloading(false);
         }
       } catch (error) {
         console.log("error", error);
         toast.error(error.response.data.message);
+        setloading(false);
       }
     }
   };
@@ -135,8 +144,14 @@ const Login = () => {
             className={`${styles.submitBtn} ${
               isSeller ? styles.submitBtnSeller : styles.submitBtnBuyer
             }`}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "0.5rem",
+              alignItems: "center",
+            }}
           >
-            Sign in →
+            Sign in → {loading ? <Spinner /> : null}
           </button>
         </form>
 
