@@ -3,35 +3,28 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/navbar.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import jwt from "jsonwebtoken";
 
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
     setIsBrowser(true);
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="))
-      ?.split("=")[1];
-    if (!token) {
-      setUser(null);
-      return;
-    }
-    try {
-      const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
-      setUser({
-        id: decoded.userId,
-        role: decoded.role,
-      });
-    } catch {
+    const userData =
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("user="))
+        ?.split("=")[1] || null;
+    if (userData) {
+      setUser(JSON.parse(userData));
+    } else {
       setUser(null);
     }
-  }, []);
+  }, [pathname]);
 
   const handleLogout = () => {
     document.cookie = `token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
@@ -39,7 +32,16 @@ const Navbar = () => {
     router.push("/login");
   };
 
-  const isSeller = user?.role === "seller";
+  // const isSeller = user?.role === "seller";
+  const [isSeller, setIsSeller] = useState(false);
+  useEffect(() => {
+    console.log("user?.role", user?.role);
+    if (user?.role === "seller") {
+      setIsSeller(true);
+    } else {
+      setIsSeller(false);
+    }
+  }, [user?.role]);
 
   return (
     <header className={styles.navbar} role="banner">

@@ -36,7 +36,7 @@ const Signup = () => {
         console.log("success");
         toast.success("Account created successfully");
         // window.localStorage.setItem("token", response.data.token);
-        document.cookie = `token=${response.data.token}; path=/`;
+        document.cookie = `user=${JSON.stringify(response.data.user)}; path=/`;
         router.push("/live");
         setloading(false);
       } else {
@@ -55,7 +55,7 @@ const Signup = () => {
           console.log("buyer success");
           toast.success("Account created successfully");
           // window.localStorage.setItem("token", buyerResponse.data.token);
-          document.cookie = `token=${buyerResponse.data.token}; path=/`;
+          document.cookie = `user=${JSON.stringify(buyerResponse.data.user)}; path=/`;
           // router.push("/live");
           typeof window !== "undefined" && (window.location.href = "/live");
           console.log("window.location.href", window.location.href);
@@ -83,7 +83,7 @@ const Signup = () => {
         console.log("success");
         toast.success("Account created successfully");
         // window.localStorage.setItem("token", response.data.token);
-        document.cookie = `token=${response.data.token}; path=/`;
+        document.cookie = `user=${JSON.stringify(response.data.user)}; path=/`;
         // router.push("/live");
         typeof window !== "undefined" && (window.location.href = "/live");
         console.log("window.location.href", window.location.href);
