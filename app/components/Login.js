@@ -33,7 +33,9 @@ const Login = () => {
           toast.success("Login successful");
           // window.localStorage.setItem("token", response.data.token);
           document.cookie = `token=${response.data.token}; path=/`;
-          router.push("/live");
+          // router.push("/live");
+          typeof window !== "undefined" && (window.location.href = "/live");
+          console.log("window.location.href", window.location.href);
           setloading(false);
         } else {
           toast.error(response.data.message);
@@ -58,7 +60,8 @@ const Login = () => {
         if (response.status == 200) {
           toast.success("Login successful");
           document.cookie = `token=${response.data.token}; path=/`;
-          router.push("/live");
+          // router.push("/live");
+          typeof window !== "undefined" && (window.location.href = "/live");
           setloading(false);
         } else {
           toast.error(response.data.message);

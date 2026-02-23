@@ -56,7 +56,10 @@ const Signup = () => {
           toast.success("Account created successfully");
           // window.localStorage.setItem("token", buyerResponse.data.token);
           document.cookie = `token=${buyerResponse.data.token}; path=/`;
-          router.push("/live");
+          // router.push("/live");
+          typeof window !== "undefined" && (window.location.href = "/live");
+          console.log("window.location.href", window.location.href);
+          setloading(false);
         } else {
           console.log("buyer error");
           console.log(buyerResponse.data);
@@ -81,9 +84,12 @@ const Signup = () => {
         toast.success("Account created successfully");
         // window.localStorage.setItem("token", response.data.token);
         document.cookie = `token=${response.data.token}; path=/`;
-        router.push("/live");
+        // router.push("/live");
+        typeof window !== "undefined" && (window.location.href = "/live");
+        console.log("window.location.href", window.location.href);
       } else {
         toast.error(response.data.message);
+        setloading(false);
       }
     }
   };
