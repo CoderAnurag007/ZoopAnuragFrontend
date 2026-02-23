@@ -35,6 +35,7 @@ const Signup = () => {
       if (response.status == 200) {
         console.log("success");
         toast.success("Account created successfully");
+        document.cookie = `token=${response.data.token}; path=/`;
         // window.localStorage.setItem("token", response.data.token);
         document.cookie = `user=${JSON.stringify(response.data.user)}; path=/`;
         router.push("/live");
@@ -54,6 +55,7 @@ const Signup = () => {
         if (buyerResponse.status == 200) {
           console.log("buyer success");
           toast.success("Account created successfully");
+          document.cookie = `token=${buyerResponse.data.token}; path=/`;
           // window.localStorage.setItem("token", buyerResponse.data.token);
           document.cookie = `user=${JSON.stringify(buyerResponse.data.user)}; path=/`;
           // router.push("/live");
@@ -84,6 +86,7 @@ const Signup = () => {
         toast.success("Account created successfully");
         // window.localStorage.setItem("token", response.data.token);
         document.cookie = `user=${JSON.stringify(response.data.user)}; path=/`;
+        document.cookie = `token=${response.data.token}; path=/`;
         // router.push("/live");
         typeof window !== "undefined" && (window.location.href = "/live");
         console.log("window.location.href", window.location.href);
