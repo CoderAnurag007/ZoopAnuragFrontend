@@ -76,7 +76,11 @@ export default function GoLivePage() {
   useEffect(() => {
     if (!isLive || !activeLive) return;
 
-    const socket = io(process.env.NEXT_PUBLIC_API_URL);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+    const socket = io(apiUrl, {
+      path: "/socket.io",
+      transports: ["websocket", "polling"],
+    });
     socketRef.current = socket;
 
     const onViewerCountUpdate = (count) => {
